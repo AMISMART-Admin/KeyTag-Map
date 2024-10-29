@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<div id="map" style="height: 100%; width: 100%"></div>
+
+<script type='text/javascript'>
+  const params = new URLSearchParams(window.location.search);
+
+  if(params){
+    // Example: <DOMAIN>?latitude=7.21111&longitude=79.83861&location=Negombo
+
+    const latitudeCoordinate = params.get("latitude");// Horizontal line. Ex: 7.21111
+    const longitudeCoordinate = params.get("longitude");// Vertical line. Ex: 79.83861
+    const locationName = params.get("location");// 'Negombo'
+
+    var map = L.map('map').setView([latitudeCoordinate, longitudeCoordinate], 13);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    if(locationName){
+      L.marker([latitudeCoordinate, longitudeCoordinate]).addTo(map).bindPopup(locationName).openPopup();
+    }
+    else{
+      L.marker([latitudeCoordinate, longitudeCoordinate]).addTo(map).openPopup();
+    }
+
+    // if(AMI_BRIDGE){
+    //   AMI_BRIDGE.postMessage('Hello World');
+    // }
+  }
+</script>
